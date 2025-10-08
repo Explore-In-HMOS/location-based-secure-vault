@@ -1,0 +1,9 @@
+{
+  "module": {
+    "name": "editor",
+    "type": "har",
+    "deviceTypes": [
+      "wearable"
+    ]
+  }
+}

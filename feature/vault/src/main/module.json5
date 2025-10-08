@@ -1,0 +1,9 @@
+{
+  "module": {
+    "name": "vault",
+    "type": "har",
+    "deviceTypes": [
+      "wearable"
+    ]
+  }
+}

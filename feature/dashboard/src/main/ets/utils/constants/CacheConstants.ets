@@ -1,3 +1,3 @@
 export class CacheConstants {
-  static  dataList = 'dataList'
+  static dataList = 'dataList'
 }

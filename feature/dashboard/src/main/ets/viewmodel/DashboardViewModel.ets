@@ -6,12 +6,12 @@ import { AssetStoreManager } from 'core/src/main/ets/storage/AssetStoreManager'
 import { CacheConstants } from '../utils/constants/CacheConstants';
 import { DataListModel } from '../model/DataListModel';
 import { Duration } from 'core/src/main/ets/base/DurationModel';
+import { DataModel } from '../model/DataModel';
 
 export class DashboardViewModel {
   private _state: DashboardState = DashboardState.initial();
   private listeners: Array<(state: DashboardState) => void> = [];
   private readonly TAG = 'DashboardViewModel';
-  context = getContext(this) as common.UIAbilityContext;
 
   get state(): DashboardState {
     return this._state;
@@ -32,24 +32,35 @@ export class DashboardViewModel {
 
   async init(): Promise<void> {
     this.state = this.state.with({isLoading: true})
-    const store = await AssetStoreManager.getInstance()
-    let data = await store.getModelWithExpiry(CacheConstants.dataList,DataListModel.fromJson)
-    let list = data?.dataList
+    const store = AssetStoreManager.getInstance()
+    const data = await store.getModelWithExpiry(CacheConstants.dataList, DataListModel.fromJson)
+    const list = data?.dataList
     this.state = this.state.with({isLoading: false,dataList: list})
 
   }
 
-  onClickEditorButton(){
+  onClickEditorButton() {
     NavigationManager.getInstance().pageInfos.pushPath({name: NavigationConstants.editor})
   }
 
- async  deleteNoteByIndex(index: number) : Promise<void> {
-    const store = await AssetStoreManager.getInstance()
-    let newList = this.state.dataList ?? [];
-    let newDataList = new DataListModel(newList)
-    newList.splice(index, 1);
-    await store.saveModelWithExpiry(CacheConstants.dataList,newDataList,Duration.days(365))
-    this.state = this.state.with({dataList: newList})
+  async deleteNoteById(id: string): Promise<void> {
+    const store = AssetStoreManager.getInstance();
+
+    const currentList: DataModel[] = this.state.dataList ?? [];
+
+    const newList: DataModel[] =
+      currentList.filter(item => item.id !== id);
+
+    const newDataList = new DataListModel(newList);
+
+    await store.saveModelWithExpiry(
+      CacheConstants.dataList,
+      newDataList,
+      Duration.days(365)
+    );
+
+    this.state = this.state.with({ dataList: newList });
   }
+
 
 }

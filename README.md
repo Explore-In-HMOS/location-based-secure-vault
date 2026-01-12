@@ -4,19 +4,14 @@
 
 Secure Notes Dashboard is a HarmonyOS NEXT application that allows users to securely store and access personal notes. Notes are encrypted and stored via **AssetStoreKit**, and can only be viewed within a defined geofence using **LocationKit**. This ensures that sensitive data remains protected and accessible only in permitted locations.
 
----
-
 # Preview
 
 <div>
-  <img src="screenShots/vault.png" width="24%">
-  <img src="screenShots/dashboard.png" width="24%">
-  <img src="screenShots/dashboard2.png" width="24%">
-  <img src="screenShots/editor.png" width="24%">
+  <img src="screenshots/vault.png" width="24%">
+  <img src="screenshots/dashboard.png" width="24%">
+  <img src="screenshots/dashboard2.png" width="24%">
+   <img src="screenshots/editor.png" width="24%">
 </div>
-
----
-
 
 # Use Cases
 
@@ -25,8 +20,6 @@ Secure Notes Dashboard is a HarmonyOS NEXT application that allows users to secu
 - **Editor Button**: Quickly add new notes via the editor button in the dashboard.
 - **Responsive & Scrollable UI**: Clean card-style design optimized for HarmonyOS devices with smooth scrolling.
 - **Delete Notes**: Remove individual notes securely without leaving traces in memory.
-
----
 
 # Tech Stack
 
@@ -43,11 +36,8 @@ Secure Notes Dashboard is a HarmonyOS NEXT application that allows users to secu
     - `@kit.BasicServicesKit`
     - `@kit.CoreFileKit`
 
-
----
-
 # Directory Structure
-```
+
 ├── core
 │   ├── base
 │   │     └── BaseModel
@@ -117,9 +107,6 @@ Secure Notes Dashboard is a HarmonyOS NEXT application that allows users to secu
 │   ├─── pages
 │   │   └─── Index.ets
 ```
-
----
-
 # Constraints and Restrictions
 
 - Access to notes is restricted to authorized locations defined by the application.
@@ -127,17 +114,12 @@ Secure Notes Dashboard is a HarmonyOS NEXT application that allows users to secu
 - Persistent storage is encrypted; no plaintext copies are stored locally.
 - Requires user permission for location access.
 
-
 ## Supported Device
 
 - HarmonyOS NEXT Devices (Smartphones or Tablets)
 - API Level 18 and above
 
----
+# LICENSE
 
-# License
-
-Smart Ad Beacon is distributed under the terms of the MIT License.
+Location Based Secure Vault is distributed under the terms of the MIT License.
 See the [LICENSE](./LICENSE) for more information.
-
-

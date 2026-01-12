@@ -3,12 +3,11 @@ import { EditorViewModel } from '../viewmodel/EditorViewModel'
 
 @Component
 export struct EditorView {
-
-  private viewModel : EditorViewModel = new EditorViewModel()
-  @State state : EditorState = EditorState.initial()
+  private viewModel: EditorViewModel = new EditorViewModel()
+  @State state: EditorState = EditorState.initial()
 
   aboutToAppear(): void {
-    this.viewModel.addListener((newState : EditorState) => {
+    this.viewModel.addListener((newState: EditorState) => {
       this.state = newState
     })
     this.viewModel.init()
@@ -27,7 +26,7 @@ export struct EditorView {
 
           TextArea({
             placeholder: 'Type your title here...',
-            text: this.state.title,
+            text: this.state.title
           })
             .fontColor(Color.Black)
             .onChange((value) => {
@@ -42,7 +41,7 @@ export struct EditorView {
 
           TextArea({
             placeholder: 'Type your note here...',
-            text: this.state.text,
+            text: this.state.text
           })
             .onChange((value) => {
               this.viewModel.setText(value)
@@ -56,20 +55,32 @@ export struct EditorView {
             .width('100%')
 
           Button() {
-            Text('💾 Save')
-              .fontSize(18)
-              .fontWeight(FontWeight.Medium)
+            Row() {
+              Text('💾 Save')
+                .fontSize(18)
+                .fontWeight(FontWeight.Medium)
+                .fontColor(0xFFFFFFFF)
+            }
+            .width('100%')
+            .height(48)
+            .justifyContent(FlexAlign.Center)
+            .alignItems(VerticalAlign.Center)
+            .backgroundColor(0xFF0056B3)
+            .borderRadius(12)
           }
           .onClick(() => {
             this.viewModel.saveNote()
           })
-          .backgroundColor('#007bff')
           .width('100%')
-          .height(48)
-          .borderRadius(12)
+          .backgroundColor(Color.Transparent)
+
+
         }
         .padding({
-          left: 32,right: 32, top: 16,bottom: 16
+          left: 32,
+          right: 32,
+          top: 16,
+          bottom: 16
         })
         .align(Alignment.Top)
       }

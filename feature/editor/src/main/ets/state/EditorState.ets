@@ -22,7 +22,7 @@ export class EditorState {
       error: updates.error === null ? undefined : (updates.error ?? this.error),
       message: updates.message === null ? undefined : (updates.message ?? this.message),
       text: updates.text ?? this.text,
-      title: updates.title ?? this.title,
+      title: updates.title ?? this.title
     });
   }
 
@@ -32,7 +32,7 @@ export class EditorState {
       error: null,
       message: '',
       text: null,
-      title: null,
+      title: null
     });
   }
 }

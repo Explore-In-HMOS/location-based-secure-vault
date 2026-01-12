@@ -1,4 +1,3 @@
-import { PermissionManager, PermissionResult, PermissionType } from 'core/src/main/ets/permission/PermissionManager';
 import { VaultState } from '../state/VaultState';
 import { common } from '@kit.AbilityKit';
 import { LogManager } from 'core/src/main/ets/logger/LogManager';
@@ -12,7 +11,7 @@ export class VaultViewModel {
   private _state: VaultState = VaultState.initial();
   private listeners: Array<(state: VaultState) => void> = [];
   private readonly TAG = 'VaultViewModel';
-  context = getContext(this) as common.UIAbilityContext;
+  context?: common.UIAbilityContext;
 
   get state(): VaultState {
     return this._state;
@@ -31,19 +30,19 @@ export class VaultViewModel {
     this.listeners.forEach(listener => listener(this._state));
   }
 
-  async init(): Promise<void> {
+  async init(context: common.UIAbilityContext): Promise<void> {
+    this.context = context
   }
 
 
-  async getUserLocation() : Promise<geoLocationManager.Location> {
-    let locationRequest: geoLocationManager.LocationRequest = {
+  async getUserLocation(): Promise<geoLocationManager.Location> {
+    const locationRequest: geoLocationManager.LocationRequest = {
       priority: geoLocationManager.LocationRequestPriority.ACCURACY,
       timeInterval: 0,
       distanceInterval: 0,
       maxAccuracy: 0
     };
-    let startLocation = await geoLocationManager.getCurrentLocation(locationRequest);
-    console.log(startLocation.sourceType?.toString());
+    const startLocation = await geoLocationManager.getCurrentLocation(locationRequest);
     return startLocation;
   }
 
@@ -70,14 +69,15 @@ export class VaultViewModel {
     return distance;
   }
 
-  async onClickVault() : Promise<void> {
-    let currentLocation = await this.getUserLocation();
-    let distance = this.calculateDistanceMeters(ProductConstants.targetLatitude,ProductConstants.targetLongitude,currentLocation.latitude,currentLocation.longitude)
-    LogManager.info(this.TAG,`distance: ${distance}`)
-    if (distance < 1){
-      NavigationManager.getInstance().pageInfos.pushPath({name: NavigationConstants.dashboard})
-    }else{
-      this.state = this.state.with({message: 'You are not in range!'})
+  async onClickVault(): Promise<void> {
+    const currentLocation = await this.getUserLocation();
+    const distance = this.calculateDistanceMeters(ProductConstants.targetLatitude, ProductConstants.targetLongitude,
+      currentLocation.latitude, currentLocation.longitude)
+    LogManager.info(this.TAG, `distance: ${distance}`)
+    if (distance < 1) {
+      NavigationManager.getInstance().pageInfos.pushPath({ name: NavigationConstants.dashboard })
+    } else {
+      this.state = this.state.with({ message: 'You are not in range!' })
     }
   }
 }

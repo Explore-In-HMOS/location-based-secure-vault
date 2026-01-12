@@ -1,6 +1,4 @@
-// PermissionManager.ts
-import { abilityAccessCtrl, bundleManager, common } from '@kit.AbilityKit';
-import type { Permissions } from '@kit.AbilityKit';
+import {Permissions, abilityAccessCtrl, bundleManager, common } from '@kit.AbilityKit';
 
 interface PermissionRequestResult {
   authResults: number[];
@@ -16,18 +14,16 @@ export class PermissionType {
   static readonly BLUETOOTH : Permissions = 'ohos.permission.ACCESS_BLUETOOTH';
 }
 
-/** Net sonuç: tek izin için ya Granted ya Denied */
 export enum PermissionResult {
   Granted = 'GRANTED',
-  Denied = 'DENIED',
+  Denied = 'DENIED'
 }
 
-/** Projede kullandığın PermissionType varsa uyumlu olsun diye union kabul ediyoruz */
 export type OnePerm = string | Permissions;
 
 
 function toPerm(p: OnePerm): Permissions {
-  return p as Permissions; // HarmonyOS'ta Permissions efektif olarak string alias
+  return p as Permissions;
 }
 
 function getSelfTokenId(): number {
@@ -49,7 +45,6 @@ export class PermissionManager {
     return PermissionManager.instance;
   }
 
-  /** Kullanıcıya dokunmadan tek iznin mevcut durumunu oku */
   checkPermission(perm: OnePerm): PermissionResult {
     const p = toPerm(perm);
     const tokenId = getSelfTokenId();
@@ -58,7 +53,7 @@ export class PermissionManager {
 
     console.info(`${PermissionManager.TAG} checkPermission ${p} => ${st}`);
     return st === abilityAccessCtrl.GrantStatus.PERMISSION_GRANTED ?
-    PermissionResult.Granted:
+    PermissionResult.Granted :
     PermissionResult.Denied;
   }
 
@@ -67,7 +62,7 @@ export class PermissionManager {
     ctx: common.UIAbilityContext
   ): Promise<PermissionResult> {
     const current = this.checkPermission(perm);
-    if (current === PermissionResult.Granted){
+    if (current === PermissionResult.Granted) {
       return PermissionResult.Granted;
     }
 
@@ -82,13 +77,12 @@ export class PermissionManager {
           reject(err);
           return;
         }
-        // data PermissionRequestResult olarak tiplenir; any/unknown yok
         const code = data?.authResults?.[0] ?? -1;
         console.info(`[PermissionManager] user response ${p} => ${code}`);
 
         resolve(
-          code === abilityAccessCtrl.GrantStatus.PERMISSION_GRANTED?
-          PermissionResult.Granted:
+          code === abilityAccessCtrl.GrantStatus.PERMISSION_GRANTED ?
+          PermissionResult.Granted :
           PermissionResult.Denied
         );
       });

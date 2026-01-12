@@ -7,13 +7,13 @@ import { Duration } from '../base/DurationModel';
 import { LogManager } from '../logger/LogManager';
 
 function stringToArray(str: string): Uint8Array {
-  const encoder = new util.TextEncoder();
+  const encoder: util.TextEncoder = new util.TextEncoder();
   return encoder.encodeInto(str);
 }
 
 function arrayToString(arr: Uint8Array): string {
-  const decoder = new util.TextDecoder('utf-8', { ignoreBOM: true });
-  return decoder.decode(arr);
+  const decoder: util.TextDecoder = new util.TextDecoder('utf-8', { ignoreBOM: true });
+  return decoder.decodeToString(arr);
 }
 
 interface AssetDataExpiryModel<TJson> {
@@ -43,7 +43,7 @@ export class AssetStoreManager {
   }
 
   public init(options?: AssetStoreInterface): void {
-    if (this.initialized){
+    if (this.initialized) {
      return
     }
 
@@ -55,7 +55,7 @@ export class AssetStoreManager {
     }
 
     this.initialized = true;
-    LogManager.info(AssetStoreManager.TAG,`AssetStoreManager initialized. persistent=${!!options?.persistent}, accessibility=${this.accessibility}`)
+    LogManager.info(AssetStoreManager.TAG, `AssetStoreManager initialized. persistent=${!!options?.persistent}, accessibility=${this.accessibility}`)
   }
 
   async set(key: string, value: string): Promise<void> {
@@ -64,14 +64,14 @@ export class AssetStoreManager {
     attr.set(asset.Tag.SECRET, stringToArray(value));
     attr.set(asset.Tag.ACCESSIBILITY, this.accessibility);
     attr.set(asset.Tag.IS_PERSISTENT, this.isPersistent);
-    attr.set(asset.Tag.DATA_LABEL_NORMAL_1, stringToArray('label-' + key));
+    attr.set(asset.Tag.DATA_LABEL_NORMAL_1, stringToArray(`label-${key}`));
 
     try {
       await asset.add(attr);
-      LogManager.info(AssetStoreManager.TAG,`Asset added for key: ${key}`)
+      LogManager.info(AssetStoreManager.TAG, `Asset added for key: ${key}`)
     } catch (err) {
       const e = err as BusinessError;
-      LogManager.error(AssetStoreManager.TAG,`Asset add failed. Code: ${e.code}, message: ${e.message}`)
+      LogManager.error(AssetStoreManager.TAG, `Asset add failed. Code: ${e.code}, message: ${e.message}`)
     }
   }
 
@@ -82,14 +82,14 @@ export class AssetStoreManager {
 
     try {
       const results = await asset.query(queryMap);
-      if (!results || results.length === 0){
+      if (!results || results.length === 0) {
         return null
       }
       const secret = results[0].get(asset.Tag.SECRET) as Uint8Array | undefined;
       return secret ? arrayToString(secret) : null;
     } catch (err) {
       const e = err as BusinessError;
-      LogManager.error(AssetStoreManager.TAG,`Asset get failed. Code: ${e.code}, message: ${e.message}`)
+      LogManager.error(AssetStoreManager.TAG, `Asset get failed. Code: ${e.code}, message: ${e.message}`)
       return null;
     }
   }
@@ -101,12 +101,12 @@ export class AssetStoreManager {
     attr.set(asset.Tag.REQUIRE_PASSWORD_SET, true);
     attr.set(asset.Tag.ACCESSIBILITY, this.accessibility);
     attr.set(asset.Tag.IS_PERSISTENT, this.isPersistent);
-    attr.set(asset.Tag.DATA_LABEL_NORMAL_1, stringToArray('label-' + key));
+    attr.set(asset.Tag.DATA_LABEL_NORMAL_1, stringToArray(`label-${key}`));
 
     try {
       await asset.add(attr);
     } catch (err) {
-      LogManager.error(AssetStoreManager.TAG,`Asset add with password failed for key: ${key}`)
+      LogManager.error(AssetStoreManager.TAG, `Asset add with password failed for key: ${key}`)
     }
   }
 
@@ -118,13 +118,13 @@ export class AssetStoreManager {
 
     try {
       const results = await asset.query(queryMap);
-      if (!results || results.length === 0){
+      if (!results || results.length === 0) {
         return null
       }
       const secret = results[0].get(asset.Tag.SECRET) as Uint8Array | undefined;
       return secret ? arrayToString(secret) : null;
     } catch (err) {
-      LogManager.error(AssetStoreManager.TAG,`Asset get with password failed for key: ${key}`)
+      LogManager.error(AssetStoreManager.TAG, `Asset get with password failed for key: ${key}`)
       return null;
     }
   }
@@ -136,7 +136,7 @@ export class AssetStoreManager {
     try {
       await asset.remove(removeMap);
     } catch (err) {
-      LogManager.error(AssetStoreManager.TAG,`Asset remove failed for key: ${key}`)
+      LogManager.error(AssetStoreManager.TAG, `Asset remove failed for key: ${key}`)
     }
   }
 
@@ -151,7 +151,7 @@ export class AssetStoreManager {
 
     try {
       const results = await asset.query(queryMap);
-      if (!results || results.length === 0){
+      if (!results || results.length === 0) {
         return
       }
 
@@ -163,16 +163,16 @@ export class AssetStoreManager {
       attr.set(asset.Tag.SECRET, stringToArray(newValue));
       attr.set(asset.Tag.ACCESSIBILITY, this.accessibility);
       attr.set(asset.Tag.IS_PERSISTENT, this.isPersistent);
-      attr.set(asset.Tag.DATA_LABEL_NORMAL_1, stringToArray('label-' + key));
+      attr.set(asset.Tag.DATA_LABEL_NORMAL_1, stringToArray(`label-${key}`));
 
       const pwd = existing.get(asset.Tag.REQUIRE_PASSWORD_SET);
-      if (pwd){
+      if (pwd) {
         attr.set(asset.Tag.REQUIRE_PASSWORD_SET, pwd);
       }
 
       await asset.add(attr);
     } catch (err) {
-      LogManager.error(AssetStoreManager.TAG,`Asset update failed for key: ${key}`)
+      LogManager.error(AssetStoreManager.TAG, `Asset update failed for key: ${key}`)
     }
   }
 
@@ -197,7 +197,7 @@ export class AssetStoreManager {
   async saveModelWithExpiry<T extends BaseModel>(key: string, model: T, duration: Duration): Promise<void> {
 
     const ms = duration.inMilliseconds();
-    if (ms <= 0){
+    if (ms <= 0) {
       throw new Error('Invalid duration for expiry');
     }
 
@@ -207,7 +207,7 @@ export class AssetStoreManager {
     };
 
     try {
-      hilog.error(0,'asset','try catch')
+      hilog.error(0, 'asset', 'try catch')
       await this.remove(key)
       await this.set(key, JSON.stringify(wrapper));
     } catch (e) {
@@ -217,7 +217,7 @@ export class AssetStoreManager {
 
   async updateModelWithExpiry<T extends BaseModel>(key: string, model: T, duration: Duration): Promise<void> {
     const ms = duration.inMilliseconds();
-    if (ms <= 0){
+    if (ms <= 0) {
       throw new Error('Invalid duration for expiry');
     }
 
@@ -230,7 +230,7 @@ export class AssetStoreManager {
 
   async getModelWithExpiry<TModel, TJson>(key: string, fromJson: (json: TJson) => TModel): Promise<TModel | null> {
     const value = await this.get(key);
-    if (!value){
+    if (!value) {
       return null
     }
 
@@ -250,7 +250,7 @@ export class AssetStoreManager {
 
   async getJson<TModel, TJson>(key: string, fromJson: (json: TJson) => TModel): Promise<TModel | null> {
     const value = await this.get(key);
-    if (!value){
+    if (!value) {
       return null
     }
 

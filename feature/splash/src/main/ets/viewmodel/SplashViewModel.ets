@@ -9,7 +9,7 @@ export class SplashViewModel {
   private _state: SplashState = SplashState.initial();
   private listeners: Array<(state: SplashState) => void> = [];
   private readonly TAG = 'SplashViewModel';
-  context = getContext(this) as common.UIAbilityContext;
+  context?: common.UIAbilityContext;
 
   get state(): SplashState {
     return this._state;
@@ -28,15 +28,16 @@ export class SplashViewModel {
     this.listeners.forEach(listener => listener(this._state));
   }
 
-  async init(): Promise<void> {
+  async init(context: common.UIAbilityContext): Promise<void> {
+    this.context = context
     this.state = this.state.with({ isLoading: true });
 
     try {
       const locationGranted = await this.requestLocationPermission();
       const approximatelyLocationGranted = await this.requestapproximatelyLocationPermission();
 
-      LogManager.info(this.TAG,`location granted: ${locationGranted}`)
-      LogManager.info(this.TAG,`approximately location granted: ${approximatelyLocationGranted}`)
+      LogManager.info(this.TAG, `location granted: ${locationGranted}`)
+      LogManager.info(this.TAG, `approximately location granted: ${approximatelyLocationGranted}`)
 
       NavigationManager.getInstance().pageInfos.replacePath({ name: NavigationConstants.vault });
 
@@ -51,12 +52,10 @@ export class SplashViewModel {
 
 
   private async requestLocationPermission(): Promise<PermissionResult> {
-    const context = getContext(this) as common.UIAbilityContext;
-    return await PermissionManager.getInstance().requestPermission(PermissionType.LOCATION, context);
+    return await PermissionManager.getInstance().requestPermission(PermissionType.LOCATION, this.context!);
   }
 
   private async requestapproximatelyLocationPermission(): Promise<PermissionResult> {
-    const context = getContext(this) as common.UIAbilityContext;
-    return await PermissionManager.getInstance().requestPermission(PermissionType.APPROX_LOCATION, context);
+    return await PermissionManager.getInstance().requestPermission(PermissionType.APPROX_LOCATION, this.context!);
   }
 }

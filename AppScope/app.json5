@@ -1,6 +1,6 @@
 {
   "app": {
-    "bundleName": "com.hmosdemos.securevault",
+    "bundleName": "com.hmosdemos.wearable.location_based_secure_vault",
     "vendor": "hmosdemos",
     "versionCode": 1000000,
     "versionName": "1.0.0",

@@ -3,7 +3,7 @@ import { BaseModel } from 'core/src/main/ets/base/BaseModel';
 export interface DataModelJson {
   id: string,
   title: string,
-  content: string,
+  content: string
 }
 
 export class DataModel implements BaseModel {
@@ -25,7 +25,7 @@ export class DataModel implements BaseModel {
     return {
       id: this.id,
       title: this.title,
-      content: this.content,
+      content: this.content
     };
   }
 

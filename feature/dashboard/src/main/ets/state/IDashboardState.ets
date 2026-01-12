@@ -1,8 +1,8 @@
-import { DataModel } from "../model/DataModel";
+import { DataModel } from '../model/DataModel';
 
 export interface IDashboardState {
   isLoading?: boolean;
   error?: string | null;
   message?: string;
-  dataList?: DataModel[],
+  dataList?: DataModel[];
 }

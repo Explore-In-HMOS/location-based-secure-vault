@@ -20,7 +20,7 @@ export class DashboardState {
       isLoading: updates.isLoading ?? this.isLoading,
       error: updates.error === null ? undefined : (updates.error ?? this.error),
       message: updates.message === null ? undefined : (updates.message ?? this.message),
-      dataList: updates.dataList ?? this.dataList,
+      dataList: updates.dataList ?? this.dataList
     });
   }
 
@@ -29,7 +29,7 @@ export class DashboardState {
       isLoading: false,
       error: null,
       message: '',
-      dataList: [],
+      dataList: []
     });
   }
 }

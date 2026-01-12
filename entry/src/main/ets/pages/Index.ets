@@ -16,7 +16,7 @@ struct Index {
       DashboardView()
     } else if (name === 'editor') {
       EditorView()
-    } else if (name === 'vault'){
+    } else if (name === 'vault') {
       VaultView()
     } else {
       SplashView()

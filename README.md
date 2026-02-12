@@ -7,10 +7,10 @@ Secure Notes Dashboard is a HarmonyOS NEXT application that allows users to secu
 # Preview
 
 <div>
-  <img src="screenshots/vault.png" width="24%">
-  <img src="screenshots/dashboard.png" width="24%">
-  <img src="screenshots/dashboard2.png" width="24%">
-   <img src="screenshots/editor.png" width="24%">
+  <img src="screenShots/vault.png" width="24%">
+  <img src="screenShots/dashboard.png" width="24%">
+  <img src="screenShots/dashboard2.png" width="24%">
+   <img src="screenShots/editor.png" width="24%">
 </div>
 
 # Use Cases

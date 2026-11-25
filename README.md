@@ -2,7 +2,7 @@
 
 # Location Based Secure Vault
 
-Secure Notes Dashboard is a HarmonyOS NEXT application that allows users to securely store and access personal notes. Notes are encrypted and stored via **AssetStoreKit**, and can only be viewed within a defined geofence using **LocationKit**. This ensures that sensitive data remains protected and accessible only in permitted locations.
+Secure Notes Dashboard is a HarmonyOS application that allows users to securely store and access personal notes. Notes are encrypted and stored via **AssetStoreKit**, and can only be viewed within a defined geofence using **LocationKit**. This ensures that sensitive data remains protected and accessible only in permitted locations.
 
 # Preview
 
@@ -25,7 +25,7 @@ Secure Notes Dashboard is a HarmonyOS NEXT application that allows users to secu
 
 - **Language**: ArkTS (Ark TypeScript)
 - **UI Framework**: ArkUI Declarative Framework
-- **OS**: HarmonyOS NEXT (API 18)
+- **OS**: HarmonyOS (API 18)
 - **Architecture**: MVVM (Model-View-ViewModel)
 - **Libraries**:
     - `@kit.LocationKit`
@@ -116,7 +116,7 @@ Secure Notes Dashboard is a HarmonyOS NEXT application that allows users to secu
 
 ## Supported Device
 
-- HarmonyOS NEXT Devices (Smartphones or Tablets)
+- HarmonyOS Devices (Smartphones or Tablets)
 - API Level 18 and above
 
 # LICENSE
